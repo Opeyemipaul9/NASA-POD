@@ -12,6 +12,23 @@ const apiUrl = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}&count=${co
 let resultsArray = [];
 let favorites = {};
 
+
+// Get 10 IImages from Nasa API
+async function getNasaPictures(){
+    // Show Loader
+    loader.classList.remove('hidden');
+
+    try{
+        const response  = await fetch(apiUrl);
+        resultsArray = await response.json();
+        
+        updateDOM('results');
+    }
+    catch(error){
+        // Catch error here
+    }
+}
+
 function showContent(page){
     window.scrollTo({top:0, behavior:'instant'});
     if(page === 'results'){
@@ -108,24 +125,7 @@ function updateDOM(page){
 
 }
 
-
-// Get 10 IImages from Nasa API
-async function getNasaPictures(){
-    // Show Loader
-    loader.classList.remove('hidden');
-
-    try{
-        const response  = await fetch(apiUrl);
-        resultsArray = await response.json();
-        
-        updateDOM('results');
-    }
-    catch(error){
-        // Catch error here
-    }
-}
-
-// AD RESULTS TO FAVORITES
+// ADD RESULTS TO FAVORITES
 function saveFavorites(itemUrl){
     resultsArray.forEach((item)=>{
         
@@ -154,6 +154,6 @@ function removeFavorites(itemUrl){
     }
 }
 
- 
+
 // oN LOAD
 getNasaPictures(); 
